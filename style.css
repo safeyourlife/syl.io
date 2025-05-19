@@ -46,7 +46,7 @@ body {
     position: absolute;
     transform: translate(-50%);
     left: 60%;
-    font-size: 12px;
+    font-size: 11px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
