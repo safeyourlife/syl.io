@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const mapContainer = document.getElementById("map-container");
     const homeFooterButton = document.getElementById("footer-home");
 
+    let map;
+    let userMarker;
+
     // Exibe o mapa e oculta os botões ao clicar no botão Mapa
     mapButton.addEventListener("click", () => {
         buttonsContainer.classList.add("hidden");
@@ -17,42 +20,48 @@ document.addEventListener("DOMContentLoaded", () => {
         mapContainer.classList.add("hidden");
     });
 
-    // Inicializa o mapa com a localização exata do usuário
+    // Inicializa o mapa com a localização exata do usuário sem criar múltiplos marcadores
     function initializeMap() {
-        const map = L.map('map-container').setView([0, 0], 2);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 25,
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+        if (!map) {
+            map = L.map('map-container').setView([0, 0], 16);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 25,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
 
-        // Obter localização exata do usuário
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-
-                    // Criar ícone personalizado com efeito pulsante azul
-                    const userIcon = L.divIcon({
-                        className: 'custom-marker blue pulse',
-                        iconSize: [10, 10],
-                        iconAnchor: [10, 10],
-                        popupAnchor: [0, -10]
-                    });
-
-                    // Criar marcador
-                    const userMarker = L.marker([lat, lon], { icon: userIcon }).addTo(map);
-                    userMarker.bindPopup("Você está aqui!");
-
-                    // Ajustar a visualização do mapa para focar no usuário
-                    map.setView([lat, lon], 16);
-                },
-                () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(updateUserLocation, () => {
                     alert("Não foi possível obter a localização.");
-                }
-            );
-        } else {
-            alert("Geolocalização não é suportada pelo navegador.");
+                }, {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 5000
+                });
+            } else {
+                alert("Geolocalização não é suportada pelo navegador.");
+            }
         }
+    }
+
+    // Atualiza a localização do usuário no mapa sem criar novos marcadores
+    function updateUserLocation(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const userIcon = L.divIcon({
+            className: 'custom-marker blue pulse',
+            iconSize: [10, 10],
+            iconAnchor: [10, 10],
+            popupAnchor: [0, -10]
+        });
+
+        if (!userMarker) {
+            userMarker = L.marker([lat, lon], { icon: userIcon }).addTo(map);
+            userMarker.bindPopup("Você está aqui!");
+        } else {
+            userMarker.setLatLng([lat, lon]); // Apenas atualiza a posição sem criar novos marcadores
+        }
+
+        map.setView([lat, lon], 16); // Mantém a visualização centralizada no usuário
     }
 });
