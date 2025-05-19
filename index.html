@@ -1,347 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br" >
+<head>
+  <meta charset="UTF-8">
+  <title>SYL - Safe Your Life</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela de Celular</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
 </head>
 <body>
-    <style>
-        /* Estilo geral */
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f6f6f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-/* Container do celular */
-.phone-container {
-    width: 100vh;
-    height: 100vh;
-    background: linear-gradient(145deg, #ffffff, #ebebeb);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-}
-
-/* Cabeçalho */
-.header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background: linear-gradient(145deg, #4682B4, #00BFFF); /* Azul claro elegante */
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.logo {
-    width: 70px;
-    height: auto;
-    border-radius: 10%;
-}
-
-.empresa {
-    width: 50%;
-    color: white;
-    text-align: center;
-    position: absolute;
-    transform: translate(-50%);
-    left: 60%;
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-/* Tela principal */
-.screen {
-    width: 100%;
-    height: 70%;
-    padding: 20px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.row {
-    display: flex;
-    justify-content: space-evenly;
-    width: 90%;
-}
-
-/* Botões principais */
-.button {
-    width: 80px;
-    height: 80px;
-    font-size: 14px;
-    background: linear-gradient(145deg, #00BFFF, #4682B4); /* Azul claro elegante */
-    color: white;
-    border: none;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    text-align: center;
-    flex-direction: column;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.5s ease, opacity 0.5s ease; /* Efeito suave */
-}
-
-.button:hover {
-    transform: scale(1.5); /* Zoom suave */
-    opacity: 0.8; /* Transparência adicional no hover */
-}
-
-.icon {
-    font-size: 24px;
-}
-/* Rodapé */
-.footer {
-    width: 100%;
-    height: 10%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background: linear-gradient(145deg, #00BFFF, #4682B4); /* Azul claro vibrante */
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.footer-icon {
-    font-size: 24px;
-    cursor: pointer;
-    transition: transform 0.5s ease, opacity 0.5s ease; /* Efeito suave */
-}
-
-.footer-icon:hover {
-    transform: scale(1.5); /* Zoom suave */
-    opacity: 0.8; /* Transparência adicional no hover */
-}
-/* Modal de Cadastro */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.hidden {
-    display: none;
-}
-
-.modal-content {
-    background: url("https://professorrogeriorodrigues.com/incluirusuario.jpg") no-repeat center center;
-    background-size: cover;
-    width: 80%;
-    max-width: 400px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    color: black;
-}
-
-.close-modal-button {
-    background: #ff3333;
-    color: white;
-    font-size: 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
-}
-
-/* Campos do Formulário */
-.input-field {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: none;
-    font-size: 14px;
-}
-
-.register-buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.register-button {
-    background: #00BFFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.register-button:hover {
-    background-color: #0056b3;
-}
-/* Modal de Login */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.hidden {
-    display: none;
-}
-
-.modal-content {
-    background: url("https://professorrogeriorodrigues.com/loginnovo.jpg") no-repeat center center;
-    background-size: cover;
-    width: 80%;
-    max-width: 400px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    color: black;
-}
-
-.close-modal-button {
-    background: #ff3333;
-    color: white;
-    font-size: 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
-}
-
-/* Campos do Formulário */
-.input-field {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: none;
-    font-size: 14px;
-}
-
-.login-buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.login-button {
-    background: #00BFFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.login-button:hover {
-    background-color: #0056b3;
-}
-.inicio{
-  font-size: 12px;
-}
-.login{
-  font-size: 12px;
-}
-.cadastro{
-  font-size: 12px;
-}
-.mapa{
-  font-size: 12px;
-}
-.notificacao{
-  font-size: 12px;
-}
-.sobre{
-  font-size: 12px;
-}
-
-/*ocultar botões da tela inicial*/
-.hidden {
-    display: none;
-}
-/*estilos do mapa*/
-/* Estilos do Mapa */
-#map-container {
-    width: 100%;
-    height: 80vh;
-}
-/* Personalização do marcador */
-.custom-marker {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid white;
-    position: absolute;
-    background-color: blue;
-}
-
-/* Efeito de pulsação */
-.custom-marker::before,
-.custom-marker::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    z-index: -1;
-    opacity: .4;
-    animation: pulse 1.5s ease-out infinite;
-}
-
-.custom-marker::before {
-    background-color: blue;
-}
-
-.custom-marker::after {
-    background-color: lightblue;
-    animation-delay: 0.75s;
-}
-
-@keyframes pulse {
-    100% {
-        transform: scale(2);
-        opacity: 0;
-    }
-}
-    </style>
     <div class="phone-container">
         <header class="header">
             <img src="https://raw.githubusercontent.com/aarinformatica/empregojuridico.io/refs/heads/main/logo-syl2.jpg" alt="Logo da Empresa" class="logo">
@@ -457,19 +132,24 @@ body {
             document.getElementById("password-register").value = "";
         });
     }
+      //direcionar para o site
+      document.addEventListener("DOMContentLoaded", () => {
+          const homeButton = document.getElementById("home");
+
+          // Abre o site em uma nova aba ao clicar no botão Início
+          homeButton.addEventListener("click", () => {
+              window.open("https://codepen.io/alexsandroar/full/yyBZRwj", "_blank");
+          });
+      });
+
     
-    //direcionar para o site
-document.addEventListener("DOMContentLoaded", () => {
-    const homeButton = document.getElementById("home");
-
-    // Abre o site em uma nova aba ao clicar no botão Início
-    homeButton.addEventListener("click", () => {
-        window.open("https://codepen.io/alexsandroar/full/yyBZRwj", "_blank");
-    });
-});
-
   </script>    
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script src="script.js"></script>
     </body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
 </html>
