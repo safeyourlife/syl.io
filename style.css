@@ -331,3 +331,6 @@ body {
         opacity: 0;
     }
 }
+.mapa{
+    background: linear-gradient(145deg, #00BFFF, #FF0000); /* azul e vermelho para o botão do alerta sonoro */
+}
