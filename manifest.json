@@ -1,0 +1,21 @@
+{
+    "name": "SYL - Safe Your Life",
+        "short_name": "SYL",
+            "start_url": "./index.html",
+                "display": "standalone",
+                    "background_color": "#ffffff",
+                        "theme_color": "#00BFFF",
+                            "orientation": "portrait",
+                                "icons": [
+                                    {
+                                        "src": "icon-192.png",
+                                        "type": "image/png",
+                                        "sizes": "192x192"
+                                    },
+                                    {
+                                        "src": "icon-512.png",
+                                        "type": "image/png",
+                                        "sizes": "512x512"
+                                    }
+                                ]
+}
